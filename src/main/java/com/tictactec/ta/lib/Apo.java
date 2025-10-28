@@ -1,12 +1,15 @@
 package com.tictactec.ta.lib;
 
 import com.sun.jna.ptr.IntByReference;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class is a wrapper for the TA-Lib function APO: Absolute Price Oscillator.
  */
 public class Apo {
 
+    private static final Logger logger = LoggerFactory.getLogger(Apo.class);
     private static final TALib taLib = TALib.INSTANCE;
 
     public static class Result {
@@ -15,7 +18,15 @@ public class Apo {
         public int outNBElement;
     }
 
-    public static Result execute(int startIdx, int endIdx, double[] inreal, int optInFastPeriod, int optInSlowPeriod, int optInMAType) {
+    public static Result execute(int startIdx, int endIdx, double[] inreal, int optInFastPeriod, int optInSlowPeriod, int optInMAType) throws ArithmeticException, IndexOutOfBoundsException {
+        // Input validation
+        if (startIdx < 0 || endIdx < 0 || startIdx > endIdx) {
+            throw new IndexOutOfBoundsException("Invalid startIdx or endIdx. startIdx=" + startIdx + ", endIdx=" + endIdx);
+        }
+        if (inreal == null || inreal.length <= endIdx) {
+            throw new IndexOutOfBoundsException("Input array 'inreal' is null or too small for endIdx=" + endIdx);
+        }
+
         Result result = new Result();
         IntByReference outBegIdx = new IntByReference();
         IntByReference outNBElement = new IntByReference();
@@ -23,7 +34,8 @@ public class Apo {
         double[] outReal = new double[allocationSize];
         int retCode = taLib.TA_APO(startIdx, endIdx, inreal, optInFastPeriod, optInSlowPeriod, optInMAType, outBegIdx, outNBElement, outReal);
         if (retCode != 0) {
-            // Handle error code if necessary
+            logger.error("TA-Lib function APO returned error code: {}", retCode);
+            throw new ArithmeticException("TA-Lib function APO returned error code: " + retCode);
         }
         result.outReal = outReal;
         result.outBegIdx = outBegIdx.getValue();
