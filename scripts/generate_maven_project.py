@@ -325,7 +325,7 @@ def create_test_class(test_java_dir, func):
 
 
 if __name__ == "__main__":
-    xml_file = 'ta-lib/ta_func_api.xml'
+    xml_file = './ta_func_api.xml'
     if not os.path.exists(xml_file):
         print(f"Error: '{xml_file}' not found. Make sure you are in the right directory.")
     else:
