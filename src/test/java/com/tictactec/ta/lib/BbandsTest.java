@@ -2,6 +2,7 @@ package com.tictactec.ta.lib;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import com.tictactec.ta.lib.results.*;
 
 public class BbandsTest {
 
@@ -13,7 +14,7 @@ public class BbandsTest {
         int endIdx = size - 1;
         double[] inreal = new double[size];
         for(int i=0; i<size; i++) { inreal[i] = i; } // Dummy data
-        Bbands.Result result = Bbands.execute(startIdx, endIdx, inreal, (int)5, (double)2.000000e+0, (double)2.000000e+0, (int)0);
+        Result result = Bbands.execute(startIdx, endIdx, inreal, (int)5, (double)2.000000e+0, (double)2.000000e+0, (int)0);
         assertNotNull(result);
         // Further assertions can be added here if expected values are known.
     }

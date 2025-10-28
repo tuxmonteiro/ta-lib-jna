@@ -2,6 +2,7 @@ package com.tictactec.ta.lib;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import com.tictactec.ta.lib.results.*;
 
 public class ObvTest {
 
@@ -15,7 +16,7 @@ public class ObvTest {
         for(int i=0; i<size; i++) { inreal[i] = i; } // Dummy data
         double[] volume = new double[size];
         for(int i=0; i<size; i++) { volume[i] = i; } // Dummy data
-        Obv.Result result = Obv.execute(startIdx, endIdx, inreal, volume);
+        Result result = Obv.execute(startIdx, endIdx, inreal, volume);
         assertNotNull(result);
         // Further assertions can be added here if expected values are known.
     }

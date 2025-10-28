@@ -4,6 +4,8 @@ import com.sun.jna.ptr.IntByReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.tictactec.ta.lib.results.*;
+
 /**
  * This class is a wrapper for the TA-Lib function STOCHF: Stochastic Fast.
  */
@@ -11,13 +13,6 @@ public class StochF {
 
     private static final Logger logger = LoggerFactory.getLogger(StochF.class);
     private static final TALib taLib = TALib.INSTANCE;
-
-    public static class Result {
-        public double[] outFastK;
-        public double[] outFastD;
-        public int outBegIdx;
-        public int outNBElement;
-    }
 
     public static Result execute(int startIdx, int endIdx, double[] high, double[] low, double[] close, int optInFastKPeriod, int optInFastDPeriod, int optInFastDMA) throws ArithmeticException, IndexOutOfBoundsException {
         // Input validation
@@ -34,7 +29,6 @@ public class StochF {
             throw new IndexOutOfBoundsException("Input array 'close' is null or too small for endIdx=" + endIdx);
         }
 
-        Result result = new Result();
         IntByReference outBegIdx = new IntByReference();
         IntByReference outNBElement = new IntByReference();
         int allocationSize = high.length;
@@ -45,10 +39,12 @@ public class StochF {
             logger.error("TA-Lib function STOCHF returned error code: {}", retCode);
             throw new ArithmeticException("TA-Lib function STOCHF returned error code: " + retCode);
         }
-        result.outFastK = outFastK;
-        result.outFastD = outFastD;
-        result.outBegIdx = outBegIdx.getValue();
-        result.outNBElement = outNBElement.getValue();
+        Result result = FastResult.builder()
+            .outFastK(outFastK)
+            .outFastD(outFastD)
+            .outBegIdx(outBegIdx.getValue())
+            .outNBElement(outNBElement.getValue())
+            .build();
         return result;
     }
 }

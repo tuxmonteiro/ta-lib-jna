@@ -2,6 +2,7 @@ package com.tictactec.ta.lib;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import com.tictactec.ta.lib.results.*;
 
 public class CdlRickshawManTest {
 
@@ -19,7 +20,7 @@ public class CdlRickshawManTest {
         for(int i=0; i<size; i++) { low[i] = i; } // Dummy data
         double[] close = new double[size];
         for(int i=0; i<size; i++) { close[i] = i; } // Dummy data
-        CdlRickshawMan.Result result = CdlRickshawMan.execute(startIdx, endIdx, open, high, low, close);
+        Result result = CdlRickshawMan.execute(startIdx, endIdx, open, high, low, close);
         assertNotNull(result);
         // Further assertions can be added here if expected values are known.
     }

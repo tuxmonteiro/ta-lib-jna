@@ -2,6 +2,7 @@ package com.tictactec.ta.lib;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import com.tictactec.ta.lib.results.*;
 
 public class UltOscTest {
 
@@ -17,7 +18,7 @@ public class UltOscTest {
         for(int i=0; i<size; i++) { low[i] = i; } // Dummy data
         double[] close = new double[size];
         for(int i=0; i<size; i++) { close[i] = i; } // Dummy data
-        UltOsc.Result result = UltOsc.execute(startIdx, endIdx, high, low, close, (int)7, (int)14, (int)28);
+        Result result = UltOsc.execute(startIdx, endIdx, high, low, close, (int)7, (int)14, (int)28);
         assertNotNull(result);
         // Further assertions can be added here if expected values are known.
     }

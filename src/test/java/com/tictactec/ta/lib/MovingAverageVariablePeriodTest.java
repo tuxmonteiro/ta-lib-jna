@@ -2,6 +2,7 @@ package com.tictactec.ta.lib;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import com.tictactec.ta.lib.results.*;
 
 public class MovingAverageVariablePeriodTest {
 
@@ -15,7 +16,7 @@ public class MovingAverageVariablePeriodTest {
         for(int i=0; i<size; i++) { inreal[i] = i; } // Dummy data
         double[] inperiods = new double[size];
         for(int i=0; i<size; i++) { inperiods[i] = i; } // Dummy data
-        MovingAverageVariablePeriod.Result result = MovingAverageVariablePeriod.execute(startIdx, endIdx, inreal, inperiods, (int)2, (int)30, (int)0);
+        Result result = MovingAverageVariablePeriod.execute(startIdx, endIdx, inreal, inperiods, (int)2, (int)30, (int)0);
         assertNotNull(result);
         // Further assertions can be added here if expected values are known.
     }

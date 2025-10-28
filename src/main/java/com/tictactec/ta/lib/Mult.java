@@ -4,6 +4,8 @@ import com.sun.jna.ptr.IntByReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.tictactec.ta.lib.results.*;
+
 /**
  * This class is a wrapper for the TA-Lib function MULT: Vector Arithmetic Mult.
  */
@@ -11,12 +13,6 @@ public class Mult {
 
     private static final Logger logger = LoggerFactory.getLogger(Mult.class);
     private static final TALib taLib = TALib.INSTANCE;
-
-    public static class Result {
-        public double[] outReal;
-        public int outBegIdx;
-        public int outNBElement;
-    }
 
     public static Result execute(int startIdx, int endIdx, double[] inreal0, double[] inreal1) throws ArithmeticException, IndexOutOfBoundsException {
         // Input validation
@@ -30,7 +26,6 @@ public class Mult {
             throw new IndexOutOfBoundsException("Input array 'inreal1' is null or too small for endIdx=" + endIdx);
         }
 
-        Result result = new Result();
         IntByReference outBegIdx = new IntByReference();
         IntByReference outNBElement = new IntByReference();
         int allocationSize = inreal0.length;
@@ -40,9 +35,11 @@ public class Mult {
             logger.error("TA-Lib function MULT returned error code: {}", retCode);
             throw new ArithmeticException("TA-Lib function MULT returned error code: " + retCode);
         }
-        result.outReal = outReal;
-        result.outBegIdx = outBegIdx.getValue();
-        result.outNBElement = outNBElement.getValue();
+        Result result = RealResult.builder()
+            .outReal(outReal)
+            .outBegIdx(outBegIdx.getValue())
+            .outNBElement(outNBElement.getValue())
+            .build();
         return result;
     }
 }

@@ -2,6 +2,7 @@ package com.tictactec.ta.lib;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import com.tictactec.ta.lib.results.*;
 
 public class PlusDMTest {
 
@@ -15,7 +16,7 @@ public class PlusDMTest {
         for(int i=0; i<size; i++) { high[i] = i; } // Dummy data
         double[] low = new double[size];
         for(int i=0; i<size; i++) { low[i] = i; } // Dummy data
-        PlusDM.Result result = PlusDM.execute(startIdx, endIdx, high, low, (int)14);
+        Result result = PlusDM.execute(startIdx, endIdx, high, low, (int)14);
         assertNotNull(result);
         // Further assertions can be added here if expected values are known.
     }

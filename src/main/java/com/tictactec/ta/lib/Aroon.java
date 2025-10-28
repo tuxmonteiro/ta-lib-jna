@@ -4,6 +4,8 @@ import com.sun.jna.ptr.IntByReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.tictactec.ta.lib.results.*;
+
 /**
  * This class is a wrapper for the TA-Lib function AROON: Aroon.
  */
@@ -11,13 +13,6 @@ public class Aroon {
 
     private static final Logger logger = LoggerFactory.getLogger(Aroon.class);
     private static final TALib taLib = TALib.INSTANCE;
-
-    public static class Result {
-        public double[] outAroonDown;
-        public double[] outAroonUp;
-        public int outBegIdx;
-        public int outNBElement;
-    }
 
     public static Result execute(int startIdx, int endIdx, double[] high, double[] low, int optInTimePeriod) throws ArithmeticException, IndexOutOfBoundsException {
         // Input validation
@@ -31,7 +26,6 @@ public class Aroon {
             throw new IndexOutOfBoundsException("Input array 'low' is null or too small for endIdx=" + endIdx);
         }
 
-        Result result = new Result();
         IntByReference outBegIdx = new IntByReference();
         IntByReference outNBElement = new IntByReference();
         int allocationSize = high.length;
@@ -42,10 +36,12 @@ public class Aroon {
             logger.error("TA-Lib function AROON returned error code: {}", retCode);
             throw new ArithmeticException("TA-Lib function AROON returned error code: " + retCode);
         }
-        result.outAroonDown = outAroonDown;
-        result.outAroonUp = outAroonUp;
-        result.outBegIdx = outBegIdx.getValue();
-        result.outNBElement = outNBElement.getValue();
+        Result result = AroonResult.builder()
+            .outAroonDown(outAroonDown)
+            .outAroonUp(outAroonUp)
+            .outBegIdx(outBegIdx.getValue())
+            .outNBElement(outNBElement.getValue())
+            .build();
         return result;
     }
 }

@@ -2,6 +2,7 @@ package com.tictactec.ta.lib;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import com.tictactec.ta.lib.results.*;
 
 public class MinIndexTest {
 
@@ -13,7 +14,7 @@ public class MinIndexTest {
         int endIdx = size - 1;
         double[] inreal = new double[size];
         for(int i=0; i<size; i++) { inreal[i] = i; } // Dummy data
-        MinIndex.Result result = MinIndex.execute(startIdx, endIdx, inreal, (int)30);
+        Result result = MinIndex.execute(startIdx, endIdx, inreal, (int)30);
         assertNotNull(result);
         // Further assertions can be added here if expected values are known.
     }

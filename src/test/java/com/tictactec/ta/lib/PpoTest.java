@@ -2,6 +2,7 @@ package com.tictactec.ta.lib;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import com.tictactec.ta.lib.results.*;
 
 public class PpoTest {
 
@@ -13,7 +14,7 @@ public class PpoTest {
         int endIdx = size - 1;
         double[] inreal = new double[size];
         for(int i=0; i<size; i++) { inreal[i] = i; } // Dummy data
-        Ppo.Result result = Ppo.execute(startIdx, endIdx, inreal, (int)12, (int)26, (int)0);
+        Result result = Ppo.execute(startIdx, endIdx, inreal, (int)12, (int)26, (int)0);
         assertNotNull(result);
         // Further assertions can be added here if expected values are known.
     }
