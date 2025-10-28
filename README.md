@@ -9,6 +9,7 @@ The project is a standard Maven project.
 
 - `pom.xml`: Maven project configuration, including JNA and JUnit 5 dependencies.
 - `src/main/java/com/tictactec/ta/lib/TALib.java`: The core JNA interface that maps to the native `ta-lib` functions.
+- `src/main/java/com/tictactec/ta/lib/results/*Result.java`: Result classes.
 - `src/main/java/com/tictactec/ta/lib/{FunctionName}.java`: Wrapper classes for each TA-Lib function, providing a more Java-friendly API.
 - `src/test/java/com/tictactec/ta/lib/{FunctionName}Test.java`: Unit tests for each function to validate the integration with the native library.
 
@@ -24,8 +25,7 @@ Before building and running this project, you need to have the native TA-Lib lib
     git clone https://github.com/TA-Lib/ta-lib.git
     cd ta-lib
     ```
-    *(Assuming this project is generated within the cloned `ta-lib` directory)*
-
+    
 2.  **Build using CMake:**
     ```bash
     mkdir build
@@ -48,10 +48,9 @@ You would need to run this command in your terminal session *before* running any
 
 ## Building the Java Project
 
-Navigate to the `ta-lib-java` directory and build the project using Maven:
+Return to parent project directory and build the project using Maven:
 
 ```bash
-cd /home/tuxmonteiro/dev/github.com/tuxmonteiro/ta-lib/ta-lib-java
 mvn clean install
 ```
 
@@ -67,7 +66,7 @@ Here's a simple example of how to use one of the generated TA-Lib functions (e.g
 ```java
 package com.tictactec.ta.lib;
 
-import com.tictactec.ta.lib.Sma.Result;
+import com.tictactec.ta.lib.results.*;
 
 public class Example {
     public static void main(String[] args) {
@@ -86,11 +85,11 @@ public class Example {
             Result smaResult = Sma.execute(startIdx, endIdx, inReal, optInTimePeriod);
 
             System.out.println("SMA Calculation Result:");
-            System.out.println("Output begins at index: " + smaResult.outBegIdx);
-            System.out.println("Number of elements in output: " + smaResult.outNBElement);
+            System.out.println("Output begins at index: " + smaResult.outBegIdx());
+            System.out.println("Number of elements in output: " + smaResult.outNBElement());
 
-            for (int i = 0; i < smaResult.outNBElement; i++) {
-                System.out.println("SMA[" + (smaResult.outBegIdx + i) + "] = " + smaResult.outReal[i]);
+            for (int i = 0; i < smaResult.outNBElement(); i++) {
+                System.out.println("SMA[" + (smaResult.outBegIdx + i) + "] = " + ((RealResult)smaResult).outReal()[i]);
             }
         } catch (ArithmeticException e) {
             System.err.println("Error during TA-Lib function execution: " + e.getMessage());
