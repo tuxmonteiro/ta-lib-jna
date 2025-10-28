@@ -26,7 +26,7 @@ public class RealResult extends Result {
         return outReal;
     }
 
-    public static Builder builder() {
+    public static RealResultBuilder builder() {
         return new RealResultBuilder();
     }
 
@@ -34,16 +34,16 @@ public class RealResult extends Result {
         private double[] outReal;
 
         @Override
-        public Builder setOutBegIdx(int outBegIdx) {
-            return super.setOutBegIdx(outBegIdx);
+        public Builder outNBElement(int outBegIdx) {
+            return super.outNBElement(outBegIdx);
         }
 
         @Override
-        public Builder setOutNBElement(int outNBElement) {
-            return super.setOutNBElement(outNBElement);
+        public Builder outBegIdx(int outNBElement) {
+            return super.outBegIdx(outNBElement);
         }
 
-        public Builder setOutReal(double[] outReal) {
+        public RealResultBuilder outReal(double[] outReal) {
             this.outReal = outReal;
             return this;
         }

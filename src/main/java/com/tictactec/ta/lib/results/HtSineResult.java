@@ -32,7 +32,7 @@ public class HtSineResult extends Result {
         return outLeadSine;
     }
 
-    public static Builder builder() {
+    public static HtSineResultBuilder builder() {
         return new HtSineResultBuilder();
     }
 
@@ -41,21 +41,21 @@ public class HtSineResult extends Result {
         private double[] outLeadSine;
 
         @Override
-        public Builder setOutBegIdx(int outBegIdx) {
-            return super.setOutBegIdx(outBegIdx);
+        public Builder outNBElement(int outBegIdx) {
+            return super.outNBElement(outBegIdx);
         }
 
         @Override
-        public Builder setOutNBElement(int outNBElement) {
-            return super.setOutNBElement(outNBElement);
+        public Builder outBegIdx(int outNBElement) {
+            return super.outBegIdx(outNBElement);
         }
 
-        public HtSineResultBuilder setOutSine(double[] outSine) {
+        public HtSineResultBuilder outSine(double[] outSine) {
             this.outSine = outSine;
             return this;
         }
 
-        public HtSineResultBuilder setOutLeadSine(double[] outLeadSine) {
+        public HtSineResultBuilder outLeadSine(double[] outLeadSine) {
             this.outLeadSine = outLeadSine;
             return this;
         }

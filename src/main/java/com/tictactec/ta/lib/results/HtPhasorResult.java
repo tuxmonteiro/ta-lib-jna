@@ -32,7 +32,7 @@ public class HtPhasorResult extends Result {
         return outQuadrature;
     }
 
-    public static Builder builder() {
+    public static HtPhasorResultBuilder builder() {
         return new HtPhasorResultBuilder();
     }
 
@@ -41,21 +41,21 @@ public class HtPhasorResult extends Result {
         private double[] outQuadrature;
 
         @Override
-        public Builder setOutBegIdx(int outBegIdx) {
-            return super.setOutBegIdx(outBegIdx);
+        public Builder outNBElement(int outBegIdx) {
+            return super.outNBElement(outBegIdx);
         }
 
         @Override
-        public Builder setOutNBElement(int outNBElement) {
-            return super.setOutNBElement(outNBElement);
+        public Builder outBegIdx(int outNBElement) {
+            return super.outBegIdx(outNBElement);
         }
 
-        public Builder setOutInPhase(double[] outInPhase) {
+        public HtPhasorResultBuilder outInPhase(double[] outInPhase) {
             this.outInPhase = outInPhase;
             return this;
         }
 
-        public Builder setOutQuadrature(double[] outQuadrature) {
+        public HtPhasorResultBuilder outQuadrature(double[] outQuadrature) {
             this.outQuadrature = outQuadrature;
             return this;
         }

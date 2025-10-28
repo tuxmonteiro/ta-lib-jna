@@ -39,7 +39,7 @@ public class BandsResult extends Result {
         return outRealLowerBand;
     }
 
-    public static Builder builder() {
+    public static BandsResultBuilder builder() {
         return new BandsResultBuilder();
     }
 
@@ -49,26 +49,26 @@ public class BandsResult extends Result {
         private double[] outRealLowerBand;
 
         @Override
-        public Builder setOutBegIdx(int outBegIdx) {
-            return super.setOutBegIdx(outBegIdx);
+        public Builder outNBElement(int outBegIdx) {
+            return super.outNBElement(outBegIdx);
         }
 
         @Override
-        public Builder setOutNBElement(int outNBElement) {
-            return super.setOutNBElement(outNBElement);
+        public Builder outBegIdx(int outNBElement) {
+            return super.outBegIdx(outNBElement);
         }
 
-        public Builder setOutRealUpperBand(double[] outRealUpperBand) {
+        public BandsResultBuilder outRealUpperBand(double[] outRealUpperBand) {
             this.outRealUpperBand = outRealUpperBand;
             return this;
         }
 
-        public Builder setOutRealMiddleBand(double[] outRealMiddleBand) {
+        public BandsResultBuilder outRealMiddleBand(double[] outRealMiddleBand) {
             this.outRealMiddleBand = outRealMiddleBand;
             return this;
         }
 
-        public Builder setOutRealLowerBand(double[] outRealLowerBand) {
+        public BandsResultBuilder outRealLowerBand(double[] outRealLowerBand) {
             this.outRealLowerBand = outRealLowerBand;
             return this;
         }

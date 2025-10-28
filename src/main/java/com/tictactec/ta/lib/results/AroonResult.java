@@ -32,7 +32,7 @@ public class AroonResult extends Result {
         return outAroonUp;
     }
 
-    public static Builder builder() {
+    public static AroonResultBuilder builder() {
         return new AroonResultBuilder();
     }
 
@@ -41,21 +41,21 @@ public class AroonResult extends Result {
         private double[] outAroonUp;
 
         @Override
-        public Builder setOutBegIdx(int outBegIdx) {
-            return super.setOutBegIdx(outBegIdx);
+        public Builder outNBElement(int outBegIdx) {
+            return super.outNBElement(outBegIdx);
         }
 
         @Override
-        public Builder setOutNBElement(int outNBElement) {
-            return super.setOutNBElement(outNBElement);
+        public Builder outBegIdx(int outNBElement) {
+            return super.outBegIdx(outNBElement);
         }
 
-        public Builder setOutAroonDown(double[] outAroonDown) {
+        public AroonResultBuilder outAroonDown(double[] outAroonDown) {
             this.outAroonDown = outAroonDown;
             return this;
         }
 
-        public Builder setOutAroonUp(double[] outAroonUp) {
+        public AroonResultBuilder outAroonUp(double[] outAroonUp) {
             this.outAroonUp = outAroonUp;
             return this;
         }

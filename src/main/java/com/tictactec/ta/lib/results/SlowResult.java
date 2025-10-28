@@ -32,7 +32,7 @@ public class SlowResult extends Result {
         return outSlowD;
     }
 
-    public static Builder builder() {
+    public static SlowResultBuilder builder() {
         return new SlowResultBuilder();
     }
 
@@ -41,21 +41,21 @@ public class SlowResult extends Result {
         private double[] outSlowD;
 
         @Override
-        public Builder setOutBegIdx(int outBegIdx) {
-            return super.setOutBegIdx(outBegIdx);
+        public Builder outNBElement(int outBegIdx) {
+            return super.outNBElement(outBegIdx);
         }
 
         @Override
-        public Builder setOutNBElement(int outNBElement) {
-            return super.setOutNBElement(outNBElement);
+        public Builder outBegIdx(int outNBElement) {
+            return super.outBegIdx(outNBElement);
         }
 
-        public SlowResultBuilder setOutSlowK(double[] outSlowK) {
+        public SlowResultBuilder outSlowK(double[] outSlowK) {
             this.outSlowK = outSlowK;
             return this;
         }
 
-        public SlowResultBuilder setOutSlowD(double[] outSlowD) {
+        public SlowResultBuilder outSlowD(double[] outSlowD) {
             this.outSlowD = outSlowD;
             return this;
         }

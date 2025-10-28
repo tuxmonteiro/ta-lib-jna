@@ -15,47 +15,47 @@
 package com.tictactec.ta.lib.results;
 
 public class MinMaxIdxResult extends Result {
-    private final double[] outMinIdx;
-    private final double[] outMaxIdx;
+    private final int[] outMinIdx;
+    private final int[] outMaxIdx;
 
-    public MinMaxIdxResult(double[] outMinIdx, double[] outMaxIdx, int outNBElement, int outBegIdx) {
+    public MinMaxIdxResult(int[] outMinIdx, int[] outMaxIdx, int outNBElement, int outBegIdx) {
         super(outNBElement, outBegIdx);
         this.outMinIdx = outMinIdx;
         this.outMaxIdx = outMaxIdx;
     }
 
-    public double[] outMinIdx() {
+    public int[] outMinIdx() {
         return outMinIdx;
     }
 
-    public double[] outMaxIdx() {
+    public int[] outMaxIdx() {
         return outMaxIdx;
     }
 
-    public static Builder builder() {
+    public static MinMaxIdxResultBuilder builder() {
         return new MinMaxIdxResultBuilder();
     }
 
     public static class MinMaxIdxResultBuilder extends Builder {
-        private double[] outMinIdx;
-        private double[] outMaxIdx;
+        private int[] outMinIdx;
+        private int[] outMaxIdx;
 
         @Override
-        public Builder setOutBegIdx(int outBegIdx) {
-            return super.setOutBegIdx(outBegIdx);
+        public Builder outNBElement(int outBegIdx) {
+            return super.outNBElement(outBegIdx);
         }
 
         @Override
-        public Builder setOutNBElement(int outNBElement) {
-            return super.setOutNBElement(outNBElement);
+        public Builder outBegIdx(int outNBElement) {
+            return super.outBegIdx(outNBElement);
         }
 
-        public MinMaxIdxResultBuilder setOutMinIdx(double[] outMinIdx) {
+        public MinMaxIdxResultBuilder outMinIdx(int[] outMinIdx) {
             this.outMinIdx = outMinIdx;
             return this;
         }
 
-        public MinMaxIdxResultBuilder setOutMaxIdx(double[] outMaxIdx) {
+        public MinMaxIdxResultBuilder outMaxIdx(int[] outMaxIdx) {
             this.outMaxIdx = outMaxIdx;
             return this;
         }

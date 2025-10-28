@@ -39,7 +39,7 @@ public class MACDResult extends Result {
         return outMACDHist;
     }
 
-    public static Builder builder() {
+    public static MACDResultBuilder builder() {
         return new MACDResultBuilder();
     }
 
@@ -49,26 +49,26 @@ public class MACDResult extends Result {
         private double[] outMACDHist;
 
         @Override
-        public Builder setOutBegIdx(int outBegIdx) {
-            return super.setOutBegIdx(outBegIdx);
+        public Builder outNBElement(int outBegIdx) {
+            return super.outNBElement(outBegIdx);
         }
 
         @Override
-        public Builder setOutNBElement(int outNBElement) {
-            return super.setOutNBElement(outNBElement);
+        public Builder outBegIdx(int outNBElement) {
+            return super.outBegIdx(outNBElement);
         }
 
-        public MACDResultBuilder setOutMACD(double[] outMACD) {
+        public MACDResultBuilder outMACD(double[] outMACD) {
             this.outMACD = outMACD;
             return this;
         }
 
-        public MACDResultBuilder setOutMACDSignal(double[] outMACDSignal) {
+        public MACDResultBuilder outMACDSignal(double[] outMACDSignal) {
             this.outMACDSignal = outMACDSignal;
             return this;
         }
 
-        public MACDResultBuilder setOutMACDHist(double[] outMACDHist) {
+        public MACDResultBuilder outMACDHist(double[] outMACDHist) {
             this.outMACDHist = outMACDHist;
             return this;
         }

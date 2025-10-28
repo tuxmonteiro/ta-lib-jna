@@ -32,7 +32,7 @@ public class MinMaxResult extends Result {
         return outMax;
     }
 
-    public static Builder builder() {
+    public static MinMaxResultBuilder builder() {
         return new MinMaxResultBuilder();
     }
 
@@ -41,21 +41,21 @@ public class MinMaxResult extends Result {
         private double[] outMax;
 
         @Override
-        public Builder setOutBegIdx(int outBegIdx) {
-            return super.setOutBegIdx(outBegIdx);
+        public Builder outNBElement(int outBegIdx) {
+            return super.outNBElement(outBegIdx);
         }
 
         @Override
-        public Builder setOutNBElement(int outNBElement) {
-            return super.setOutNBElement(outNBElement);
+        public Builder outBegIdx(int outNBElement) {
+            return super.outBegIdx(outNBElement);
         }
 
-        public MinMaxResultBuilder setOutMin(double[] outMin) {
+        public MinMaxResultBuilder outMin(double[] outMin) {
             this.outMin = outMin;
             return this;
         }
 
-        public MinMaxResultBuilder setOutMax(double[] outMax) {
+        public MinMaxResultBuilder outMax(double[] outMax) {
             this.outMax = outMax;
             return this;
         }

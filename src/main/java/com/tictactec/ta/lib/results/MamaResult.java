@@ -32,7 +32,7 @@ public class MamaResult extends Result {
         return outFAMA;
     }
 
-    public static Builder builder() {
+    public static MamaResultBuilder builder() {
         return new MamaResultBuilder();
     }
 
@@ -41,21 +41,21 @@ public class MamaResult extends Result {
         private double[] outFAMA;
 
         @Override
-        public Builder setOutBegIdx(int outBegIdx) {
-            return super.setOutBegIdx(outBegIdx);
+        public Builder outNBElement(int outBegIdx) {
+            return super.outNBElement(outBegIdx);
         }
 
         @Override
-        public Builder setOutNBElement(int outNBElement) {
-            return super.setOutNBElement(outNBElement);
+        public Builder outBegIdx(int outNBElement) {
+            return super.outBegIdx(outNBElement);
         }
 
-        public MamaResultBuilder setOutMAMA(double[] outMAMA) {
+        public MamaResultBuilder outMAMA(double[] outMAMA) {
             this.outMAMA = outMAMA;
             return this;
         }
 
-        public MamaResultBuilder setOutFAMA(double[] outFAMA) {
+        public MamaResultBuilder outFAMA(double[] outFAMA) {
             this.outFAMA = outFAMA;
             return this;
         }

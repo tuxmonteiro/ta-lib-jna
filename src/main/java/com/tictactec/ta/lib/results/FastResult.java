@@ -32,7 +32,7 @@ public class FastResult extends Result {
         return outFastD;
     }
 
-    public static Builder builder() {
+    public static FastResultBuilder builder() {
         return new FastResultBuilder();
     }
 
@@ -41,21 +41,21 @@ public class FastResult extends Result {
         private double[] outFastD;
 
         @Override
-        public Builder setOutBegIdx(int outBegIdx) {
-            return super.setOutBegIdx(outBegIdx);
+        public Builder outNBElement(int outBegIdx) {
+            return super.outNBElement(outBegIdx);
         }
 
         @Override
-        public Builder setOutNBElement(int outNBElement) {
-            return super.setOutNBElement(outNBElement);
+        public Builder outBegIdx(int outNBElement) {
+            return super.outBegIdx(outNBElement);
         }
 
-        public FastResultBuilder setOutFastK(double[] outFastK) {
+        public FastResultBuilder outFastK(double[] outFastK) {
             this.outFastK = outFastK;
             return this;
         }
 
-        public FastResultBuilder setOutFastD(double[] outFastD) {
+        public FastResultBuilder outFastD(double[] outFastD) {
             this.outFastD = outFastD;
             return this;
         }
