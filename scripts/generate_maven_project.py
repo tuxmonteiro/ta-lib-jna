@@ -9,20 +9,36 @@
 #   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
+#
+#   This source is subject to the Apache License, Version 2.0.
+#   Please see the LICENSE file for more information.
+#
+#   Unless required by applicable law or agreed to in writing, software
+#   distributed under the License is distributed on an "AS IS" BASIS,
+#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#   See the License for the specific language governing permissions and
+#   limitations under the License.
 
 import os
 import xml.etree.ElementTree as ET
+
+base_package = 'com.tictactec.ta.lib'
 
 def create_maven_project(xml_file):
     """
     Generates a complete Maven project for ta-lib based on the provided XML definition.
     """
-    base_dir = '.'
+    base_dir = 'src/main/java'
+    test_dir = 'src/test/java'
 
     # Create directory structure
-    main_java_dir = os.path.join(base_dir, 'src/main/java/com/tictactec/ta/lib')
-    test_java_dir = os.path.join(base_dir, 'src/test/java/com/tictactec/ta/lib')
+    main_java_dir = os.path.join(base_dir,  "/".join(base_package.split(".")))
+    results_java_dir = os.path.join(base_dir, "/".join(base_package.split(".")) + '/results')
+    functions_java_dir = os.path.join(base_dir, "/".join(base_package.split(".")) + '/functions')
+    test_java_dir = os.path.join(test_dir, "/".join(base_package.split(".")) + '/functions')
     os.makedirs(main_java_dir, exist_ok=True)
+    os.makedirs(results_java_dir, exist_ok=True)
+    os.makedirs(functions_java_dir, exist_ok=True)
     os.makedirs(test_java_dir, exist_ok=True)
 
     # Parse the XML file
@@ -35,7 +51,7 @@ def create_maven_project(xml_file):
 
     # Create a class for each function and its test
     for func in functions:
-        create_function_class(main_java_dir, func)
+        create_function_class(functions_java_dir, func)
         create_test_class(test_java_dir, func)
 
     print(f"Maven project created")
@@ -69,7 +85,7 @@ def create_core_lib_class(main_java_dir, functions):
     Creates the core TALib.java interface for JNA.
     """
     content = [
-        "package com.tictactec.ta.lib;",
+        f"package {base_package};",
         "",
         "import com.sun.jna.Library;",
         "import com.sun.jna.Native;",
@@ -123,7 +139,7 @@ def create_core_lib_class(main_java_dir, functions):
         f.write('\n'.join(content))
 
 
-def create_function_class(main_java_dir, func):
+def create_function_class(functions_java_dir, func):
     """
     Creates a Java class for a single TA-Lib function.
     """
@@ -187,13 +203,14 @@ def create_function_class(main_java_dir, func):
 
     # Start building the class content
     content = [
-        f"package com.tictactec.ta.lib;",
+        f"package {base_package}.functions;",
         "",
         "import com.sun.jna.ptr.IntByReference;",
         "import org.slf4j.Logger;",
         "import org.slf4j.LoggerFactory;",
         "",
-        "import com.tictactec.ta.lib.results.*;",
+        f"import {base_package}.results.*;",
+        f"import {base_package}.TALib;",
         "",
         f"/**",
         f" * This class is a wrapper for the TA-Lib function {abbr}: {short_desc}.",
@@ -259,7 +276,7 @@ def create_function_class(main_java_dir, func):
     content.append(f"    }}")
     content.append("}")
 
-    with open(os.path.join(main_java_dir, f"{camel_case_name}.java"), 'w') as f:
+    with open(os.path.join(functions_java_dir, f"{camel_case_name}.java"), 'w') as f:
         f.write('\n'.join(content))
 
 def create_test_class(test_java_dir, func):
@@ -286,11 +303,12 @@ def create_test_class(test_java_dir, func):
             optional_params.append({'type': p_type, 'name': p_name, 'default': default_val})
 
     content = [
-        f"package com.tictactec.ta.lib;",
+        f"package {base_package};",
         "",
         "import org.junit.jupiter.api.Test;",
         "import static org.junit.jupiter.api.Assertions.*;",
-        "import com.tictactec.ta.lib.results.*;",
+        f"import {base_package}.functions.*;",
+        f"import {base_package}.results.*;",
         "",
         f"public class {camel_case_name}Test {{",
         "",

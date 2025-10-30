@@ -20,7 +20,7 @@
 
     <groupId>com.tictactec.ta.lib</groupId>
     <artifactId>ta-lib-jna</artifactId>
-    <version>0.6.4</version>
+    <version>0.6.4-20251030</version>
     <packaging>jar</packaging>
 
     <name>TA-Lib JNA Wrapper</name>
