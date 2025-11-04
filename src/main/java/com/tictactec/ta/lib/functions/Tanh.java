@@ -7,14 +7,28 @@ import org.slf4j.LoggerFactory;
 import com.tictactec.ta.lib.results.*;
 import com.tictactec.ta.lib.TALib;
 
+
 /**
  * This class is a wrapper for the TA-Lib function TANH: Vector Trigonometric Tanh.
+ *
+ * @author fibonsai
+ * @since 0.6.4
  */
 public class Tanh {
 
     private static final Logger logger = LoggerFactory.getLogger(Tanh.class);
     private static final TALib taLib = TALib.INSTANCE;
 
+    /**
+     * Calculates the vector hyperbolic tangent of a given input series.
+     *
+     * @param startIdx the start index for the calculation
+     * @param endIdx the end index for the calculation
+     * @param inreal the input series
+     * @return a Result object containing the calculated vector hyperbolic tangent
+     * @throws ArithmeticException if the TA-Lib function returns an error code
+     * @throws IndexOutOfBoundsException if the start or end index is out of bounds
+     */
     public static Result execute(int startIdx, int endIdx, double[] inreal) throws ArithmeticException, IndexOutOfBoundsException {
         // Input validation
         if (startIdx < 0 || endIdx < 0 || startIdx > endIdx) {

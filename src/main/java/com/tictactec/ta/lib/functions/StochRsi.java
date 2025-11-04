@@ -7,14 +7,32 @@ import org.slf4j.LoggerFactory;
 import com.tictactec.ta.lib.results.*;
 import com.tictactec.ta.lib.TALib;
 
+
 /**
  * This class is a wrapper for the TA-Lib function STOCHRSI: Stochastic Relative Strength Index.
+ *
+ * @author fibonsai
+ * @since 0.6.4
  */
 public class StochRsi {
 
     private static final Logger logger = LoggerFactory.getLogger(StochRsi.class);
     private static final TALib taLib = TALib.INSTANCE;
 
+    /**
+     * Calculates the Stochastic RSI of a given input series.
+     *
+     * @param startIdx the start index for the calculation
+     * @param endIdx the end index for the calculation
+     * @param inreal the input series
+     * @param optInTimePeriod the time period for the RSI calculation
+     * @param optInFastKPeriod the time period for the Fast %K
+     * @param optInFastDPeriod the time period for the Fast %D
+     * @param optInFastDMA the moving average type for the Fast %D
+     * @return a Result object containing the calculated Stochastic RSI
+     * @throws ArithmeticException if the TA-Lib function returns an error code
+     * @throws IndexOutOfBoundsException if the start or end index is out of bounds
+     */
     public static Result execute(int startIdx, int endIdx, double[] inreal, int optInTimePeriod, int optInFastKPeriod, int optInFastDPeriod, int optInFastDMA) throws ArithmeticException, IndexOutOfBoundsException {
         // Input validation
         if (startIdx < 0 || endIdx < 0 || startIdx > endIdx) {

@@ -7,14 +7,30 @@ import org.slf4j.LoggerFactory;
 import com.tictactec.ta.lib.results.*;
 import com.tictactec.ta.lib.TALib;
 
+
 /**
  * This class is a wrapper for the TA-Lib function MINUS_DM: Minus Directional Movement.
+ *
+ * @author fibonsai
+ * @since 0.6.4
  */
 public class MinusDM {
 
     private static final Logger logger = LoggerFactory.getLogger(MinusDM.class);
     private static final TALib taLib = TALib.INSTANCE;
 
+    /**
+     * Calculates the Minus Directional Movement of a given input series.
+     *
+     * @param startIdx the start index for the calculation
+     * @param endIdx the end index for the calculation
+     * @param high the input series of high prices
+     * @param low the input series of low prices
+     * @param optInTimePeriod the time period for the calculation
+     * @return a Result object containing the calculated Minus Directional Movement
+     * @throws ArithmeticException if the TA-Lib function returns an error code
+     * @throws IndexOutOfBoundsException if the start or end index is out of bounds
+     */
     public static Result execute(int startIdx, int endIdx, double[] high, double[] low, int optInTimePeriod) throws ArithmeticException, IndexOutOfBoundsException {
         // Input validation
         if (startIdx < 0 || endIdx < 0 || startIdx > endIdx) {

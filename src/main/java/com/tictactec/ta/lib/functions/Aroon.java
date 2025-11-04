@@ -9,6 +9,9 @@ import com.tictactec.ta.lib.TALib;
 
 /**
  * This class is a wrapper for the TA-Lib function AROON: Aroon.
+ *
+ * @author fibonsai
+ * @since 0.6.4
  */
 public class Aroon {
 

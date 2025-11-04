@@ -15,6 +15,22 @@ public class Accbands {
     private static final Logger logger = LoggerFactory.getLogger(Accbands.class);
     private static final TALib taLib = TALib.INSTANCE;
 
+    private Accbands() {
+    }
+
+    /**
+     * Calculates the Acceleration Bands for a given input series.
+     *
+     * @param startIdx the start index for the calculation
+     * @param endIdx the end index for the calculation
+     * @param high the input series of high prices
+     * @param low the input series of low prices
+     * @param close the input series of close prices
+     * @param optInTimePeriod the time period for the calculation
+     * @return a Result object containing the calculated Acceleration Bands
+     * @throws ArithmeticException if the TA-Lib function returns an error code
+     * @throws IndexOutOfBoundsException if the start or end index is out of bounds
+     */
     public static Result execute(int startIdx, int endIdx, double[] high, double[] low, double[] close, int optInTimePeriod) throws ArithmeticException, IndexOutOfBoundsException {
         // Input validation
         if (startIdx < 0 || endIdx < 0 || startIdx > endIdx) {
