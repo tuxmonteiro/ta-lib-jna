@@ -313,6 +313,11 @@ public enum TaLibFunction {
             return this;
         }
 
+        public Builder optInMAType(MAType maType) {
+            this.ints[3] = maType.idx();
+            return this;
+        }
+
         public Builder inReal(double[] inreal) {
             this.doubleArrays[0] = inreal;
             return this;
@@ -355,6 +360,16 @@ public enum TaLibFunction {
 
         public Builder volume(double[] volume) {
             this.doubleArrays[4] = volume;
+            return this;
+        }
+
+        public Builder optInDeviationsup(double optInDeviationsup) {
+            this.doubles[0] = optInDeviationsup;
+            return this;
+        }
+
+        public Builder optInDeviationsdown(double optInDeviationsdown) {
+            this.doubles[1] = optInDeviationsdown;
             return this;
         }
 
