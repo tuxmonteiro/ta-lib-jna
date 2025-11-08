@@ -18,6 +18,7 @@ import com.tictactec.ta.lib.functions.*;
 import com.tictactec.ta.lib.results.*;
 
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.LinkedList;
 
 public enum TaLibFunction {
@@ -207,37 +208,53 @@ public enum TaLibFunction {
 
     private final Class<?> taClass;
     private final Class<? extends Result> resultClass;
-    private final LinkedList<Object> _params = new LinkedList<>();
+    private final LinkedList<Object> params = new LinkedList<>();
+
+    // Cacheable
+    private Method taLibStaticMethodExecute = null;
 
     TaLibFunction(Class<?> taClass, Class<? extends Result> resultClass) {
         this.taClass = taClass;
         this.resultClass = resultClass;
     }
 
-    public Class<?> taClass() {
-        return taClass;
-    }
-
-    public Class<? extends Result> resultClass() {
-        return resultClass;
-    }
-
     public TaLibFunction params(Object[] params) {
-        this._params.clear();
+        this.params.clear();
         if (params[2] instanceof Double[] firstDoubleArray) {
             if (params[1] instanceof Integer endIdx) {
                 params[1] = (endIdx == 0) ? firstDoubleArray.length - 1 : endIdx;
             }
         }
         for (Object param : params) {
-            this._params.addLast(param);
+            this.params.addLast(param);
         }
         return this;
     }
 
+    public Result execute() {
+        try {
+            if (taLibStaticMethodExecute == null) {
+                taLibStaticMethodExecute = taLibStaticMethodExecute();
+            }
+            var resultObj = taLibStaticMethodExecute.invoke(null, params.toArray());
+            if (resultClass.isInstance(resultObj)) {
+                return resultClass.cast(resultObj);
+            }
+            this.taLibStaticMethodExecute = null;
+            throw new RuntimeException(this + ": method not return " + resultClass.getSimpleName());
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            this.taLibStaticMethodExecute = null;
+            throw new RuntimeException(e);
+        }
+    }
+
+    public TALibBuilder builder() {
+        return new TALibBuilder(this);
+    }
+
     @SuppressWarnings("SuspiciousToArrayCall")
     private Class<?>[] paramsType() {
-        return _params.stream().map(o -> {
+        return params.stream().map(o -> {
             try {
                 return o.getClass().getField("TYPE").get(null);
             } catch (NoSuchFieldException | IllegalAccessException e) {
@@ -246,207 +263,7 @@ public enum TaLibFunction {
         }).toList().toArray(new Class<?>[0]);
     }
 
-    public Result execute() {
-        try {
-            var resObj = taClass()
-                    .getMethod("execute", paramsType())
-                    .invoke(null, _params.toArray());
-            if (resultClass().isInstance(resObj)) {
-                return resultClass().cast(resObj);
-            }
-            throw new RuntimeException(this + ": method not return " + resultClass().getSimpleName());
-        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public Builder builder() {
-        return new Builder(this);
-    }
-
-    public static class Builder {
-        private final TaLibFunction taLibFunction;
-        private final int[] ints = new int[]{
-                Integer.MIN_VALUE,
-                Integer.MIN_VALUE,
-                Integer.MIN_VALUE,
-                Integer.MIN_VALUE,
-                Integer.MIN_VALUE,
-                Integer.MIN_VALUE,
-                Integer.MIN_VALUE,
-                Integer.MIN_VALUE
-        };
-        private final double[][] doubleArrays = new double[][]{
-                new double[0],
-                new double[0],
-                new double[0],
-                new double[0],
-                new double[0]
-        };
-        private final double[] doubles = new double[]{
-                Double.MIN_VALUE,
-                Double.MIN_VALUE,
-                Double.MIN_VALUE,
-                Double.MIN_VALUE,
-                Double.MIN_VALUE,
-                Double.MIN_VALUE,
-                Double.MIN_VALUE,
-                Double.MIN_VALUE,
-        };
-
-        protected Builder(TaLibFunction taLibFunction) {
-            this.taLibFunction = taLibFunction;
-        }
-
-        public Builder startIdx(int startIdx) {
-            this.ints[0] = startIdx;
-            return this;
-        }
-
-        public Builder endIdx(int endIdx) {
-            this.ints[1] = endIdx;
-            return this;
-        }
-
-        public Builder optInTimePeriod(int optInTimePeriod) {
-            this.ints[2] = optInTimePeriod;
-            return this;
-        }
-
-        public Builder optInMAType(MAType maType) {
-            this.ints[3] = maType.idx();
-            return this;
-        }
-
-        public Builder inReal(double[] inreal) {
-            this.doubleArrays[0] = inreal;
-            return this;
-        }
-
-        public Builder inPeriods(double[] inperiods) {
-            this.doubleArrays[1] = inperiods;
-            return this;
-        }
-
-        public Builder inReal0(double[] inreal0) {
-            this.doubleArrays[0] = inreal0;
-            return this;
-        }
-
-        public Builder inReal1(double[] inreal1) {
-            this.doubleArrays[1] = inreal1;
-            return this;
-        }
-
-        public Builder open(double[] open) {
-            this.doubleArrays[0] = open;
-            return this;
-        }
-
-        public Builder high(double[] high) {
-            this.doubleArrays[1] = high;
-            return this;
-        }
-
-        public Builder low(double[] low) {
-            this.doubleArrays[2] = low;
-            return this;
-        }
-
-        public Builder close(double[] close) {
-            this.doubleArrays[3] = close;
-            return this;
-        }
-
-        public Builder volume(double[] volume) {
-            this.doubleArrays[4] = volume;
-            return this;
-        }
-
-        public Builder optInDeviationsup(double optInDeviationsup) {
-            this.doubles[0] = optInDeviationsup;
-            return this;
-        }
-
-        public Builder optInDeviationsdown(double optInDeviationsdown) {
-            this.doubles[1] = optInDeviationsdown;
-            return this;
-        }
-
-        public Result execute() {
-            defragDoubleArrays();
-            defragDoubles();
-            defragInts();
-
-            LinkedList<Object> params = new LinkedList<>();
-            processParams(params);
-
-            if (params.size() >= 3) {
-                return taLibFunction.params(params.toArray()).execute();
-            }
-            throw new RuntimeException("params incorrect or insuficcients");
-        }
-
-        private void processParams(LinkedList<Object> params) {
-            params.addLast(ints[0]); // startIdx
-            params.addLast(ints[1]); // endIdx
-
-            for (int x = 0; x < doubleArrays.length - 1; x++) {
-                if (doubleArrays[x].length > 0) params.addLast(doubleArrays[x]);
-            }
-            if (ints[2] > Integer.MIN_VALUE) {
-                params.addLast(ints[2]);
-            }
-            if (doubles[0] > Double.MIN_VALUE) {
-                for (int x = 0; x < doubles.length - 1; x++) {
-                    if (doubles[x] > Double.MIN_VALUE) params.addLast(doubles[x]);
-                }
-            }
-            for (int x = 3; x < ints.length - 1; x++) {
-                if (ints[x] > Integer.MIN_VALUE) params.addLast(ints[x]);
-            }
-        }
-
-        private void defragDoubleArrays() {
-            int w = 0;
-            while (w < doubleArrays.length && doubleArrays[w].length == 0) {
-                int k = w + 1;
-                while (k < doubleArrays.length - 1 && doubleArrays[k].length == 0) k++;
-                if (k == doubleArrays.length) break;
-                if (doubleArrays[k].length != 0) {
-                    doubleArrays[w] = doubleArrays[k];
-                    doubleArrays[k] = new double[0];
-                }
-                w++;
-            }
-        }
-
-        private void defragDoubles() {
-            int w = 0;
-            while (w < doubles.length && doubles[w] == Double.MIN_VALUE) {
-                int k = w + 1;
-                while (k < doubles.length - 1 && doubles[k] == Double.MIN_VALUE) k++;
-                if (k == doubles.length) break;
-                if (doubles[k] > Double.MIN_VALUE) {
-                    doubles[w] = doubles[k];
-                    doubles[k] = Double.MIN_VALUE;
-                }
-                w++;
-            }
-        }
-
-        private void defragInts() {
-            int w = 0;
-            while (w < ints.length && ints[w] == Integer.MIN_VALUE) {
-                int k = w + 1;
-                while (k < ints.length - 1 && ints[k] == Integer.MIN_VALUE) k++;
-                if (k == ints.length) break;
-                if (ints[k] > Integer.MIN_VALUE) {
-                    ints[w] = ints[k];
-                    ints[k] = Integer.MIN_VALUE;
-                }
-                w++;
-            }
-        }
+    private Method taLibStaticMethodExecute() throws NoSuchMethodException {
+        return taClass.getMethod("execute", paramsType());
     }
 }
