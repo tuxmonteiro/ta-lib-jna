@@ -204,7 +204,7 @@ public enum TaLibFunction {
 
     public TaLibFunction params(Object[] params) {
         this.params.clear();
-        if (params.length >= 3 && params[2] instanceof double[] firstDoubleArray) {
+        if (params[2] instanceof Double[] firstDoubleArray) {
             if (params[1] instanceof Integer endIdx) {
                 params[1] = (endIdx == 0) ? firstDoubleArray.length - 1 : endIdx;
             }
