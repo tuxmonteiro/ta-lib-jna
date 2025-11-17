@@ -19,7 +19,7 @@ import com.tictactec.ta.lib.results.*;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.LinkedList;
+import java.util.*;
 
 /*
  * NOT EDIT - Auto generated using scripts/generate_TaLibFunction.sh
@@ -186,20 +186,40 @@ public enum TaLibFunction {
     WCL_PRICE(WclPrice.class,RealResult.class,int.class, int.class, double[].class, double[].class, double[].class),
     WILL_R(WillR.class,RealResult.class,int.class, int.class, double[].class, double[].class, double[].class, int.class),
     WMA(Wma.class,RealResult.class,int.class, int.class, double[].class, int.class),
+
+    UNDEF(null, null),
     ;
 
-    private final Class<?> taClass;
+    private static final Map<String, TaLibFunction> enumMap = new HashMap<>();
+
+    static {
+        List.of(values()).forEach(e -> enumMap.put(e.name(), e));
+    }
+
+    public static TaLibFunction byName(String name) {
+        if (name == null) {
+            return UNDEF;
+        }
+        return Optional.ofNullable(enumMap.get(name)).orElse(UNDEF);
+    }
+
     private final Class<? extends Result> resultClass;
-    private final Class<?>[] paramsType;
     private final LinkedList<Object> params = new LinkedList<>();
 
-    // Cacheable
-    private Method taLibStaticMethodExecute = null;
+    private final Method taLibStaticMethodExecute;
 
     TaLibFunction(Class<?> taClass, Class<? extends Result> resultClass, Class<?>... paramsType) {
-        this.taClass = taClass;
         this.resultClass = resultClass;
-        this.paramsType = paramsType;
+
+        try {
+            if (taClass != null) {
+                this.taLibStaticMethodExecute = taClass.getMethod("execute", paramsType);
+            } else {
+                this.taLibStaticMethodExecute = null;
+            }
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public TaLibFunction params(Object[] params) {
@@ -216,27 +236,21 @@ public enum TaLibFunction {
     }
 
     public Result execute() {
+        if (this == UNDEF) {
+            throw new IllegalArgumentException("TaLib Function is UNDEF");
+        }
         try {
-            if (taLibStaticMethodExecute == null) {
-                taLibStaticMethodExecute = taLibStaticMethodExecute();
-            }
             var resultObj = taLibStaticMethodExecute.invoke(null, params.toArray());
             if (resultClass.isInstance(resultObj)) {
                 return resultClass.cast(resultObj);
             }
-            this.taLibStaticMethodExecute = null;
             throw new RuntimeException(this + ": method not return " + resultClass.getSimpleName());
-        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            this.taLibStaticMethodExecute = null;
+        } catch (IllegalAccessException | InvocationTargetException e) {
             throw new RuntimeException(e);
         }
     }
 
     public TALibBuilder builder() {
         return new TALibBuilder(this);
-    }
-
-    private Method taLibStaticMethodExecute() throws NoSuchMethodException {
-        return taClass.getMethod("execute", paramsType);
     }
 }
