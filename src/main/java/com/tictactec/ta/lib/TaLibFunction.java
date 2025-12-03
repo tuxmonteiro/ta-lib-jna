@@ -222,6 +222,10 @@ public enum TaLibFunction {
         }
     }
 
+    public Class<? extends Result> resultClass() {
+        return resultClass;
+    }
+
     public TaLibFunction params(Object[] params) {
         this.params.clear();
         if (params.length >= 3 && params[2] instanceof double[] firstDoubleArray) {

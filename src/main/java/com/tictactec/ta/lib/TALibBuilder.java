@@ -52,6 +52,10 @@ public class TALibBuilder {
         this.taLibFunction = taLibFunction;
     }
 
+    public TaLibFunction taLibFunction() {
+        return taLibFunction;
+    }
+
     public TALibBuilder startIdx(int startIdx) {
         this.ints[0] = startIdx;
         return this;
