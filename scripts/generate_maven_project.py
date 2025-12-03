@@ -303,7 +303,7 @@ def create_test_class(test_java_dir, func):
             optional_params.append({'type': p_type, 'name': p_name, 'default': default_val})
 
     content = [
-        f"package {base_package};",
+        f"package {base_package}.functions;",
         "",
         "import org.junit.jupiter.api.Test;",
         "import static org.junit.jupiter.api.Assertions.*;",

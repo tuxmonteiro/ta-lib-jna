@@ -1,4 +1,4 @@
-package com.tictactec.ta.lib;
+package com.tictactec.ta.lib.functions;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
