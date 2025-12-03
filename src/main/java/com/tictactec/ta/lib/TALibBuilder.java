@@ -15,10 +15,14 @@
 package com.tictactec.ta.lib;
 
 import com.tictactec.ta.lib.results.Result;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 
 public class TALibBuilder {
+    private static final Logger log = LoggerFactory.getLogger(TALibBuilder.class);
     private final TaLibFunction taLibFunction;
     private final int[] ints = new int[]{
             Integer.MIN_VALUE,
@@ -149,19 +153,34 @@ public class TALibBuilder {
         params.addLast(ints[0]); // startIdx
         params.addLast(ints[1]); // endIdx
 
-        for (int x = 0; x < doubleArrays.length - 1; x++) {
-            if (doubleArrays[x].length > 0) params.addLast(doubleArrays[x]);
+        for (double[] doubleArray : doubleArrays) {
+            if (doubleArray.length > 0) params.addLast(doubleArray);
         }
         if (ints[2] > Integer.MIN_VALUE) {
             params.addLast(ints[2]);
         }
         if (doubles[0] > Double.MIN_VALUE) {
-            for (int x = 0; x < doubles.length - 1; x++) {
-                if (doubles[x] > Double.MIN_VALUE) params.addLast(doubles[x]);
+            for (double aDouble : doubles) {
+                if (aDouble > Double.MIN_VALUE) params.addLast(aDouble);
             }
         }
-        for (int x = 3; x < ints.length - 1; x++) {
+        for (int x = 3; x < ints.length; x++) {
             if (ints[x] > Integer.MIN_VALUE) params.addLast(ints[x]);
+        }
+
+        if (log.isDebugEnabled()) {
+            log.debug("{}: params ->", this);
+            log.debug("-------------------");
+            for (Object param: params) {
+                switch (param) {
+                    case Integer i -> log.debug("  int: {}", i);
+                    case Double d -> log.debug("  double: {}", d);
+                    case double[] doubleArray -> log.debug("  double[]: {}", Arrays.toString(doubleArray));
+                    case int[] intArray -> log.debug("  int[]: {}", Arrays.toString(intArray));
+                    default -> log.debug("  obj: {}", param);
+                }
+            }
+            log.debug("-------------------");
         }
     }
 
